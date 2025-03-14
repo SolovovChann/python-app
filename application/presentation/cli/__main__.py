@@ -32,7 +32,7 @@ if __name__ == "__main__":
     config_file = os.environ.get("CLI_CFG_FILE", "cli_config.json")
 
     container = containers.Container()
-    container.config.from_json(config_file)
+    container.config.from_json(config_file, required=True)
     container.init_resources()
     container.wire([__name__])
 

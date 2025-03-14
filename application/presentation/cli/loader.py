@@ -33,3 +33,14 @@ def load_commands(
 
         defaults_kwargs = {payload_key: instance.handle}
         subparser.set_defaults(**defaults_kwargs)
+
+
+def execute_command(
+    namespace: argparse.Namespace,
+    *,
+    payload_key: str = "payload",
+) -> None:
+    kwargs = {**vars(namespace)}
+    payload = kwargs.pop(payload_key)
+
+    payload(**kwargs)

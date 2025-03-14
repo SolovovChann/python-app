@@ -4,6 +4,9 @@ from typing import Any, Iterable, Protocol
 from application.presentation.cli.command import Command
 
 
+PAYLOAD_KEY: str = "payload"
+
+
 class _SubParser(Protocol):
     def add_parser(
         self,
@@ -18,7 +21,7 @@ def load_commands(
     subparsers: _SubParser,
     commands: Iterable[type[Command]],
     *,
-    payload_key: str = "payload",
+    payload_key: str = PAYLOAD_KEY,
     **command_init_kwargs: Any,
 ) -> None:
     for command in commands:
@@ -38,7 +41,7 @@ def load_commands(
 def execute_command(
     namespace: argparse.Namespace,
     *,
-    payload_key: str = "payload",
+    payload_key: str = PAYLOAD_KEY,
 ) -> None:
     kwargs = {**vars(namespace)}
     payload = kwargs.pop(payload_key)

@@ -3,6 +3,14 @@ from typing import Any, Generator, Iterable
 
 
 class Factory[T]:
+    """
+    Create objects from dict configuration.
+    Configuration must provide `type` key with path to class or alias.
+
+    Path to class is a module name and class name joined with a '.'.
+    Example: `module.submodule.ClassName`
+    """
+
     aliases: dict[str, type[T]]
     type_kwarg_name: str
 

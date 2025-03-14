@@ -2,6 +2,13 @@ import importlib
 from typing import Any, Generator, Iterable
 
 
+def import_class(name: str) -> type:
+    module_name, class_name = name.strip().rsplit(".", maxsplit=1)
+    module = importlib.import_module(module_name)
+
+    return getattr(module, class_name)
+
+
 class Factory[T]:
     """
     Create objects from dict configuration.

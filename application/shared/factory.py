@@ -2,13 +2,26 @@ import importlib
 from typing import Any, Generator, Iterable
 
 
+def import_class(name: str) -> type:
+    """
+    Name is a full module name and class name joined with a '.'.
+    Example: `module.submodule.ClassName`
+    """
+    module_name, class_name = name.strip().rsplit(".", maxsplit=1)
+    module = importlib.import_module(module_name)
+
+    return getattr(module, class_name)
+
+
+def import_classes(names: Iterable[str]) -> Generator[type, None, None]:
+    for name in names:
+        yield import_class(name)
+
+
 class Factory[T]:
     """
     Create objects from dict configuration.
-    Configuration must provide `type` key with path to class or alias.
-
-    Path to class is a module name and class name joined with a '.'.
-    Example: `module.submodule.ClassName`
+    Configuration must provide `type` key with path to class or alias
     """
 
     aliases: dict[str, type[T]]
@@ -40,10 +53,7 @@ class Factory[T]:
         if type_as_string in self.aliases:
             return self.aliases[type_as_string]
 
-        module_name, class_name = type_as_string.rsplit(".", maxsplit=1)
-        module = importlib.import_module(module_name)
-
-        return getattr(module, class_name)
+        return import_class(type_as_string)
 
     def _instantiate(self, class_type: type[T], **config: Any) -> T:
         return class_type(**config)

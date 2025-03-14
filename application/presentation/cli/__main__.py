@@ -1,5 +1,6 @@
-import os
 import argparse
+import os
+import sys
 
 from dependency_injector.wiring import Provide, inject
 
@@ -35,5 +36,9 @@ if __name__ == "__main__":
     container.config.from_json(config_file, required=True)
     container.init_resources()
     container.wire([__name__])
+
+    if not list(container.commands()):
+        sys.stderr.write("No commands for CLI specified.\nCheck config file")
+        sys.exit(1)
 
     main()

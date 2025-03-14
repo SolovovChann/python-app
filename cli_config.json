@@ -1,0 +1,10 @@
+{
+  "commands": [
+  ],
+  "logging": {
+    "version": 1,
+    "formatters": {},
+    "handlers": {},
+    "loggers": {}
+  }
+}

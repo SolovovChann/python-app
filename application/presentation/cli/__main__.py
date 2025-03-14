@@ -1,3 +1,4 @@
+import os
 import argparse
 
 from dependency_injector.wiring import Provide, inject
@@ -28,8 +29,10 @@ def main(
 
 
 if __name__ == "__main__":
+    config_file = os.environ.get("CLI_CFG_FILE", "cli_config.json")
+
     container = containers.Container()
-    container.config.from_json("cli_config.json")
+    container.config.from_json(config_file)
     container.init_resources()
     container.wire([__name__])
 

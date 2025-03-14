@@ -39,3 +39,17 @@ class Factory[T]:
 
     def _instantiate(self, class_type: type[T], **config: Any) -> T:
         return class_type(**config)
+
+
+def initialize[T](
+    config: dict[str, Any] | list[dict[str, Any]],
+    *,
+    aliases: dict[str, type[T]],
+    type_kwarg_name: str = "type",
+) -> T | Generator[T, None, None]:
+    factory = Factory[T](aliases=aliases, type_kwarg_name=type_kwarg_name)
+
+    if isinstance(config, dict):
+        return factory.make(config)
+
+    return factory.make_many(config)

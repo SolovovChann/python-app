@@ -9,6 +9,11 @@ def import_class(name: str) -> type:
     return getattr(module, class_name)
 
 
+def import_classes(names: Iterable[str]) -> Iterable[type]:
+    for name in names:
+        yield import_class(name)
+
+
 class Factory[T]:
     """
     Create objects from dict configuration.

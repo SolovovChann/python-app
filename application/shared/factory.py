@@ -47,10 +47,7 @@ class Factory[T]:
         if type_as_string in self.aliases:
             return self.aliases[type_as_string]
 
-        module_name, class_name = type_as_string.rsplit(".", maxsplit=1)
-        module = importlib.import_module(module_name)
-
-        return getattr(module, class_name)
+        return import_class(type_as_string)
 
     def _instantiate(self, class_type: type[T], **config: Any) -> T:
         return class_type(**config)

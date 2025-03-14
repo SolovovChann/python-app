@@ -52,7 +52,7 @@ class Factory[T]:
 def initialize[T](
     config: dict[str, Any] | list[dict[str, Any]],
     *,
-    aliases: dict[str, type[T]],
+    aliases: dict[str, type[T]] | None = None,
     type_kwarg_name: str = "type",
 ) -> T | Generator[T, None, None]:
     factory = Factory[T](aliases=aliases, type_kwarg_name=type_kwarg_name)

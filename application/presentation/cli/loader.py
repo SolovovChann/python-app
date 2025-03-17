@@ -30,6 +30,7 @@ def load_commands(
             name=instance.get_name(),
             help=instance.get_help(),
             description=instance.get_description(),
+            aliases=instance.aliases,
         )
 
         instance.add_arguments(subparser)

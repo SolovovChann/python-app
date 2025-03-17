@@ -7,6 +7,7 @@ class Command(abc.ABC):
     description: str = ""
     name: str = ""
     help: str = ""
+    aliases: tuple[str, ...] = ()
 
     def __str__(self) -> str:
         return self.get_name()

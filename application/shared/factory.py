@@ -4,7 +4,7 @@ from typing import Any, Generator, Iterable
 
 def import_class(name: str) -> type:
     """
-    Name is a full module name and class name joined with a '.'.
+    Imports a class type by its module and class name, concatenated by a dot.
     Example: `module.submodule.ClassName`
     """
     module_name, class_name = name.strip().rsplit(".", maxsplit=1)

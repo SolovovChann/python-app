@@ -40,11 +40,12 @@ def load_commands(
 
 
 def execute_command(
-    namespace: argparse.Namespace,
+    namespace: dict[str, Any] | argparse.Namespace,
     *,
     payload_key: str = PAYLOAD_KEY,
 ) -> None:
-    kwargs = {**vars(namespace)}
-    payload = kwargs.pop(payload_key)
+    if isinstance(namespace, argparse.Namespace):
+        namespace = {**vars(namespace)}
 
-    payload(**kwargs)
+    payload = namespace.pop(payload_key)
+    payload(**namespace)

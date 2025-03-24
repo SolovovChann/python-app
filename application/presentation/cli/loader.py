@@ -4,7 +4,7 @@ from typing import Any, Iterable, Protocol
 from application.presentation.cli.command import Command
 
 
-PAYLOAD_KEY: str = "payload"
+PAYLOAD_KEY: str = "__payload__"
 
 
 class _SubParser(Protocol):

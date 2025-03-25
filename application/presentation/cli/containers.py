@@ -1,6 +1,7 @@
 import logging.config
 
 from dependency_injector import containers, providers
+
 from application.shared import factory
 
 

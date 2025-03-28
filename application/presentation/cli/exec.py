@@ -21,7 +21,7 @@ DEFAULT_LOGGING_CONFIG: dict[str, Any] = {
 }
 
 
-def main() -> None:
+def main() -> int:
     config_file = os.environ.get(CONFIG_FILE_ENV_KEY, DEFAULT_CONFIG_FILE_PATH)
     command_names, logging_config = _load_config(config_file)
     logging.config.dictConfig(logging_config)
@@ -33,6 +33,8 @@ def main() -> None:
 
     args = parser.parse_args()
     loader.execute_command(args)
+
+    return 0
 
 
 def _create_parser() -> argparse.ArgumentParser:

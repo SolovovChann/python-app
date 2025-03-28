@@ -22,7 +22,8 @@ DEFAULT_LOGGING_CONFIG: dict[str, Any] = {
 
 
 def main() -> None:
-    command_names, logging_config = _load_config()
+    config_file = os.environ.get(CONFIG_FILE_ENV_KEY, DEFAULT_CONFIG_FILE_PATH)
+    command_names, logging_config = _load_config(config_file)
     logging.config.dictConfig(logging_config)
 
     parser = _create_parser()
@@ -46,10 +47,8 @@ def _create_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _load_config() -> tuple[list[str], dict[str, Any]]:
-    with open(
-        os.environ.get(CONFIG_FILE_ENV_KEY, DEFAULT_CONFIG_FILE_PATH)
-    ) as config_file:
+def _load_config(path: str) -> tuple[list[str], dict[str, Any]]:
+    with open(path) as config_file:
         config: dict[str, Any] = json.load(config_file)
         commands = config.get("commands", [])
         logging_config = config.get("logging", DEFAULT_LOGGING_CONFIG)

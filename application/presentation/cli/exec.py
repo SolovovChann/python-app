@@ -14,6 +14,16 @@ from application.presentation.cli.command import Command
 def main(
     commands: list[type[Command]] = Provide[containers.Container.commands],
 ) -> None:
+    parser = _create_parser()
+
+    subparsers = parser.add_subparsers(required=True)
+    loader.load_commands(subparsers, commands)
+
+    args = parser.parse_args()
+    loader.execute_command(args)
+
+
+def _create_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog=module_name)
     parser.add_argument(
         "-v",
@@ -22,11 +32,7 @@ def main(
         version=f"{module_name} v{cli_version}",
     )
 
-    subparsers = parser.add_subparsers(required=True)
-    loader.load_commands(subparsers, commands)
-
-    args = parser.parse_args()
-    loader.execute_command(args)
+    return parser
 
 
 def _load_container() -> None:

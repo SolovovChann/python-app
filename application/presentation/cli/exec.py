@@ -11,6 +11,16 @@ from application.presentation.cli import loader
 from application.shared.factory import import_classes
 
 
+CONFIG_FILE_ENV_KEY = "CLI_CFG_FILE"
+DEFAULT_CONFIG_FILE_PATH = "cli.cfg"
+DEFAULT_LOGGING_CONFIG: dict[str, Any] = {
+    "version": 1,
+    "formatters": {},
+    "handlers": {},
+    "loggers": {},
+}
+
+
 def main() -> None:
     command_names, logging_config = _load_config()
     logging.config.dictConfig(logging_config)
@@ -36,16 +46,10 @@ def _create_parser() -> argparse.ArgumentParser:
     return parser
 
 
-DEFAULT_LOGGING_CONFIG: dict[str, Any] = {
-    "version": 1,
-    "formatters": {},
-    "handlers": {},
-    "loggers": {},
-}
-
-
 def _load_config() -> tuple[list[str], dict[str, Any]]:
-    with open(os.environ.get("CLI_CFG_FILE", "cli.cfg")) as config_file:
+    with open(
+        os.environ.get(CONFIG_FILE_ENV_KEY, DEFAULT_CONFIG_FILE_PATH)
+    ) as config_file:
         config: dict[str, Any] = json.load(config_file)
         commands = config.get("commands", [])
         logging_config = config.get("logging", DEFAULT_LOGGING_CONFIG)

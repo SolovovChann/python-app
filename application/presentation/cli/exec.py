@@ -29,7 +29,7 @@ def main(
     loader.execute_command(args)
 
 
-if __name__ == "__main__":
+def _load_container() -> None:
     config_file = os.environ.get("CLI_CFG_FILE", "cli.cfg")
 
     container = containers.Container()
@@ -41,4 +41,7 @@ if __name__ == "__main__":
         sys.stderr.write("No commands for CLI specified.\nCheck config file")
         sys.exit(1)
 
+
+if __name__ == "__main__":
+    _load_container()
     main()

@@ -24,11 +24,11 @@ DEFAULT_LOGGING_CONFIG: dict[str, Any] = {
 def execute_with_command_line() -> int:
     config_file = os.environ.get(CONFIG_FILE_ENV_KEY, DEFAULT_CONFIG_FILE_PATH)
     command_names, logging_config = _read_config(config_file)
+    commands = import_classes(command_names)
     logging.config.dictConfig(logging_config)
 
     parser = _create_parser()
     subparsers = parser.add_subparsers(required=True)
-    commands = import_classes(command_names)
     loader.load_commands(subparsers, commands)
 
     args = parser.parse_args()

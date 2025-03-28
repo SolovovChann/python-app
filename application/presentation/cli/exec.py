@@ -32,7 +32,16 @@ def main() -> int:
     loader.load_commands(subparsers, commands)
 
     args = parser.parse_args()
-    loader.execute_command(args)
+
+    try:
+        loader.execute_command(args)
+    except KeyboardInterrupt:
+        return 0
+    except Exception as exc:
+        logging.exception("Uncaught exception while executing command")
+        logging.debug("Parsed arguments: %r", args)
+
+        return 1
 
     return 0
 

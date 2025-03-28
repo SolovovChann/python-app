@@ -1,7 +1,7 @@
 import sys
 
-from .exec import main
+from . import exec
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(exec.execute_with_command_line())

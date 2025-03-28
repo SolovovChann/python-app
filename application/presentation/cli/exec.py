@@ -21,7 +21,7 @@ DEFAULT_LOGGING_CONFIG: dict[str, Any] = {
 }
 
 
-def main() -> int:
+def execute_with_command_line() -> int:
     config_file = os.environ.get(CONFIG_FILE_ENV_KEY, DEFAULT_CONFIG_FILE_PATH)
     command_names, logging_config = _read_config(config_file)
     logging.config.dictConfig(logging_config)
@@ -74,4 +74,4 @@ def _read_config(path: str) -> tuple[list[str], dict[str, Any]]:
 
 
 if __name__ == "__main__":
-    main()
+    execute_with_command_line()

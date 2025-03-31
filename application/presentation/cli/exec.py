@@ -59,6 +59,9 @@ def _create_parser() -> argparse.ArgumentParser:
 
 
 def _read_config(path: str) -> tuple[list[str], dict[str, Any]]:
+    if not os.path.exists(path):
+        _create_default_config(path)
+
     with open(path) as config_file:
         config: dict[str, Any] = json.load(config_file)
         commands = config.get("commands", [])
@@ -71,6 +74,18 @@ def _read_config(path: str) -> tuple[list[str], dict[str, Any]]:
             sys.exit(1)
 
         return commands, logging_config
+
+
+def _create_default_config(path: str) -> None:
+    with open(path, "w") as config_file:
+        content: dict[str, Any] = {
+            "commands": [],
+            "logging": DEFAULT_LOGGING_CONFIG,
+        }
+        json.dump(content, config_file, indent=2)
+
+        # keep .editorconfig's `insert_final_newline`
+        config_file.write("\n")
 
 
 if __name__ == "__main__":

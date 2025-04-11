@@ -35,8 +35,8 @@ def execute_with_command_line() -> int:
 
     try:
         loader.execute_command(args)
-    except KeyboardInterrupt:
-        return 0
+    except KeyboardInterrupt as exc:
+        logging.info("Command execution terminated by user", exc_info=exc)
     except Exception as exc:
         logging.exception("Uncaught exception while executing command")
         logging.debug("Parsed arguments: %r", args)
